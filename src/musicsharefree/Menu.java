@@ -174,6 +174,7 @@ public class Menu {
                 + "\nXadd - add playlist or song."
                 + "\nXrm - remove playlist or song."
                 + "\nsearch - search a song (You can use this to get song's ID and add to a playlist."
+                + "\nrandom - on/off random mode."
                 + "\npplay - plays a playlist."
                 + "\npause - pause a song when is playing. (Have some bugs..)"
                 + "\nplay - resume a song when is paused. (Have some bugs..)"
