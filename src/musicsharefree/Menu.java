@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
@@ -59,7 +60,7 @@ public class Menu {
     public void sls() throws SQLException
     {
         System.out.print("Playlist ID: ");
-        String idP = teclado.next();
+        String idP = teclado.nextLine();
         
         ResultSet playlist = db.getPlaylist(idP);
         System.out.println("Songs on PLaylist: ");
@@ -72,7 +73,7 @@ public class Menu {
     public void padd() throws SQLException
     {
         System.out.print("Nombre de playlist: ");
-        String title = teclado.next();
+        String title = teclado.nextLine();
         db.insert(title);
     }
     
@@ -80,9 +81,9 @@ public class Menu {
     {
         JSONCall song = new JSONCall();
         System.out.print("Playlist ID: ");
-        String idP = teclado.next();
+        String idP = teclado.nextLine();
         System.out.print("Song ID: ");
-        String idS = teclado.next();
+        String idS = teclado.nextLine();
         String jsonS = null;
         try {
             jsonS = song.getSong(idS);
@@ -99,7 +100,7 @@ public class Menu {
     {
         JSONCall song = new JSONCall();
         System.out.print("Playlist ID: ");
-        String idP = teclado.next();
+        String idP = teclado.nextLine();
         
         db.remove(idP);
     }
@@ -108,9 +109,9 @@ public class Menu {
     {
         JSONCall song = new JSONCall();
         System.out.print("Playlist ID: ");
-        String idP = teclado.next();
+        String idP = teclado.nextLine();
         System.out.print("Song ID: ");
-        String idS = teclado.next();
+        String idS = teclado.nextLine();
         
         db.remove(idP, idS);
     }
@@ -121,7 +122,7 @@ public class Menu {
         player.setRandom(isRandom);
         JSONCall song = new JSONCall();
         System.out.print("Playlist ID: ");
-        String idP = teclado.next();
+        String idP = teclado.nextLine();
         
         ResultSet playlist = db.getPlaylist(idP);
         
@@ -130,6 +131,27 @@ public class Menu {
         {
             songs.add(playlist.getString(2));
         }
+        
+        System.out.println(songs.size()+" songs loaded!");
+        player.setPlaylist(songs);
+        player.start();
+    }
+    
+    public void psearch() throws SQLException, MalformedURLException
+    {
+        player = new PlayerController(playerB);
+        player.setRandom(isRandom);
+        JSONCall song = new JSONCall();
+        System.out.print("Search: ");
+        String q = teclado.nextLine();
+        
+        //ResultSet playlist = db.getPlaylist(idP);
+        
+        ArrayList<String> songs = song.getSearch(q);
+        /* while(playlist.next())
+        {
+            songs.add(playlist.getString(2));
+        } */
         
         System.out.println(songs.size()+" songs loaded!");
         player.setPlaylist(songs);
@@ -178,15 +200,17 @@ public class Menu {
                 + "\npplay - plays a playlist."
                 + "\npause - pause a song when is playing. (Have some bugs..)"
                 + "\nplay - resume a song when is paused. (Have some bugs..)"
-                + "\nnext - plays the next song of the playlist.");
+                + "\nnext - plays the next song of the playlist."
+                + "\npsearch - plays all songs returned by a search");
     }
     
     public void search() throws MalformedURLException
     {
-        System.out.print("What do you want search? ");
-        String q = teclado.next();
+        System.out.print("Search: ");
+        String q = teclado.nextLine();
         
         JSONCall search = new JSONCall();
         search.getSearch(q);
     }
+    
 }

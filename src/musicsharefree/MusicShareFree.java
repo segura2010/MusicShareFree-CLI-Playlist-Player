@@ -28,6 +28,8 @@ import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import sun.net.www.http.HttpClient;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javazoom.jlgui.basicplayer.BasicController;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
@@ -49,6 +51,8 @@ public class MusicShareFree {
         Scanner teclado=new Scanner(System.in);
         String te;
         
+        Logger.getLogger(BasicPlayer.class.getName()).setLevel(Level.OFF);
+        
         while(true)
         {
             System.out.print("[MSF CLI Private]> ");
@@ -57,7 +61,7 @@ public class MusicShareFree {
             {
                 m.exec(te);
             } catch (Exception e) {
-                System.out.println("Something bad.. \n"+e);
+                System.out.println("Something bad ocurred.. \n"+e);
             }
         }
                 

@@ -73,20 +73,23 @@ public class PlayerController extends Thread {
     public void playInOrder() throws SQLException, MalformedURLException, BasicPlayerException, InterruptedException, IOException
     {
         JSONCall song = new JSONCall();
-        String url = null, json = null;
+        String url = null, json = null, title = null;
         while(!playlist.isEmpty())
         {
             json = song.getSong(playlist.get(0));
             url = song.getUrl(json);
+            title = song.getTitle(json);
             try {
                 player.open(new URL(url));
                 player.play();
             } catch (Exception e) {
                 playInOrder();
+                return; // Avoid playlist finished.. 
             }
-            System.out.println("Loading, please wait..");
+            System.out.println("Playing: "+ title);
+            //System.out.println("Loading, please wait..");
             Thread.sleep(8000); // 8sec to prepare playing
-            System.out.println("Im playing");
+            //System.out.println("Im playing");
             while(player.getStatus() != STOPPED)
             {   // While song not end.
                 Thread.sleep(2500);
@@ -103,21 +106,24 @@ public class PlayerController extends Thread {
     {
         int r;
         JSONCall song = new JSONCall();
-        String url = null, json = null;
+        String url = null, json = null, title = null;
         while(!playlist.isEmpty())
         {
             r = random.nextInt(playlist.size());
             json = song.getSong(playlist.get(r));
             url = song.getUrl(json);
+            title = song.getTitle(json);
             try {
                 player.open(new URL(url));
                 player.play();
             } catch (Exception e) {
-                playInOrder();
+                playRandom();
+                return; // Avoid playlist finished.. 
             }
-            System.out.println("Loading, please wait..");
+            System.out.println("Playing: "+ title);
+            //System.out.println("Loading, please wait..");
             Thread.sleep(8000); // 8sec to prepare playing
-            System.out.println("Im playing");
+            //System.out.println("Im playing");
             while(player.getStatus() != STOPPED)
             {   // While song not end.
                 Thread.sleep(2500);
@@ -129,4 +135,5 @@ public class PlayerController extends Thread {
         System.out.println("Playlist end.");
         
     }
+    
 }
